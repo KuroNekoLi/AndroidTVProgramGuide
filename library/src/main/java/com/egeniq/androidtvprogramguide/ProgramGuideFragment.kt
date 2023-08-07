@@ -344,6 +344,24 @@ abstract class ProgramGuideFragment<T> : Fragment(), ProgramGuideManager.Listene
 
     /**
      * Sets up all the components to be used by the fragment.
+     * 初始化基本參數:
+     * 方法首先初始化了一些基本的參數，如選中行(selectionRow)、行高(rowHeight)、每小時的寬度(widthPerHour)以及網格的寬度(gridWidth)。
+     *
+     * 滾動監聽器 onScrollListener:
+     * 接著，方法定義了一個滾動監聽器，當 RecyclerView 滾動時，會調用 onHorizontalScrolled(dx) 函數。
+     *
+     * 初始化時間行和相關配置:
+     * 這段代碼中獲取了一個名為 timeRow 的 RecyclerView 組件，並為其添加了滾動監聽器。它還根據是否已創建(created)來設置視圖的時間範圍。
+     *
+     * 初始化 ProgramGuideGridView 和其相關配置:
+     * 這段代碼中初始化了 ProgramGuideGridView 並為其配置了各種屬性，如焦點行為、對齊方式、适配器等。
+     *
+     * 其他組件的初始化:
+     *
+     * 向 programGuideManager 的監聽器集合中添加了當前片段(fragment)。
+     * 設置 currentDateView 的透明度為0（使其不可見）。
+     * 為 timeRow 設置了時間列表的适配器。
+     * 為跳至當前直播的按鈕(jumpToLive)設置了點擊監聽器，當點擊時，將自動滾動到最佳的節目。
      */
     @Suppress("ObjectLiteralToLambda", "DEPRECATION")
     @SuppressLint("RestrictedApi")

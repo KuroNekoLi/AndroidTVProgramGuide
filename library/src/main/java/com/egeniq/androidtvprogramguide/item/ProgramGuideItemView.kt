@@ -157,6 +157,13 @@ class ProgramGuideItemView<T> : FrameLayout {
      *
      * @param leftOffset Amount of pixels the view sticks out on the left side of the screen. If it is negative, it does not stick out.
      * @param rightOffset Amount of pixels the view sticks out on the right side of the screen. If it is negative, it does not stick out.
+     * 如果文字的長度小於48dp，則不顯示文字。
+     * 嘗試在可見區域內顯示完整的文字，並進行適當的文字換行，但如果該文字表示的時間小於30分鐘，則不應進行換行。
+     * 只有當標題不是多行時，集數標題才可見。
+     * 參數說明：
+     *
+     * leftOffset：視圖在屏幕左側突出的像素數。如果它是負值，則表示它並未突出。
+     * rightOffset：視圖在屏幕右側突出的像素數。如果它是負值，則表示它並未突出。
      */
     private fun layoutVisibleArea(leftOffset: Int, rightOffset: Int) {
         val width = schedule?.width ?: 0

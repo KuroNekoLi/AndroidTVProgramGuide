@@ -32,6 +32,8 @@ class ProgramGuideManager<T> {
      * If the first entry's visible duration is shorter than this value, we should clip the entry out.
      * Note: If this value is larger than 1 min, it could cause mismatches between the entry's
      * position and detailed view's time range.
+     *  * 如果第一個條目的可見持續時間短於此值，我們應該將該條目剪掉。
+     *  * 注意：如果此值大於1分鐘，它可能會導致條目的位置和詳細視圖的時間範圍之間存在不匹配。
      */
     companion object {
         internal val ENTRY_MIN_DURATION = TimeUnit.MINUTES.toMillis(2) // 2 min
@@ -77,7 +79,36 @@ class ProgramGuideManager<T> {
         setTimeRange(startUtcMillis, endUtcMillis)
     }
 
-
+    /**
+     *
+     * 此方法的名稱為 updateChannelsTimeRange，它接受兩個參數：selectedDate（選定的日期）和 timeZone（時區）。
+     *
+     * 以下是此方法的詳細解釋：
+     *
+     * 定義變數:
+     *
+     * viewPortWidth 是給定時間範圍的寬度（毫秒）。
+     * newStartMillis 和 newEndMillis 用於記錄在遍歷所有頻道的項目時發現的最早和最晚的時間戳。
+     * 遍歷頻道:
+     *
+     * 對每個頻道，我們獲取其所有的項目和項目的數量。
+     * 如果項目數量為 0，則繼續處理下一個頻道。
+     * 更新 newStartMillis 和 newEndMillis 的值，確保它們分別是開始和結束時間戳中的最小值和最大值。
+     * 獲取整體的時間範圍:
+     *
+     * 如果 newStartMillis 和 newEndMillis 沒有值，使用原始的 fromUtcMillis 和 toUtcMillis。
+     * 更新每個頻道的項目:
+     *
+     * 進一步調整每個頻道的項目，以確保它們適應選定的日期和時間範圍。
+     * 對於不在該時間範圍內的項目，進行修剪或刪除。
+     * 對於那些在時間範圍外部突出的項目，進行適當的修剪。
+     * 確保在時間範圍的左側和右側填充了空白或間隙。
+     * 如果項目之間有太大的時間差，手動插入一個間隙。
+     * 再次遍歷列表，找到太短的項目，並對其進行修正。
+     * 設置時間範圍:
+     *
+     * 在最後，根據最新的 startUtcMillis 和 viewPortWidth，設置整體的時間範圍。
+     */
     @Suppress("ConvertTwoComparisonsToRangeCheck")
     private fun updateChannelsTimeRange(selectedDate: LocalDate, timeZone: ZoneId) {
         val viewPortWidth = toUtcMillis - fromUtcMillis
